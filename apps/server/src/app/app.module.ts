@@ -1,11 +1,10 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import * as errorhandler from 'errorhandler';
 
-@Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
-})
-export class AppModule {}
+@Module({})
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): void {
+    consumer.apply(errorhandler()).forRoutes('/');
+  }
+}
